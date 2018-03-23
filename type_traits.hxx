@@ -26,19 +26,19 @@ namespace cpe
             static T test_construction(T const &);
         };
 
-        template<std::size_t ...>
-        struct AccumulateMaxSize;
+        template<typename T, T ...>
+        struct AccumulateMax;
 
-        template<std::size_t A>
-        struct AccumulateMaxSize<A>
-            : std::integral_constant<std::size_t, A>
+        template<typename T, T A>
+        struct AccumulateMax<T, A>
+            : std::integral_constant<T, A>
         {};
 
-        template<std::size_t A, std::size_t B, std::size_t ... Rest>
-        struct AccumulateMaxSize<A, B, Rest ...>
+        template<typename T, T A, T B, T ... Rest>
+        struct AccumulateMax<T, A, B, Rest ...>
             : std::integral_constant<
-                std::size_t,
-                AccumulateMaxSize<(A > B ? A : B), Rest ...>::value
+                T,
+				AccumulateMax<T, (A > B ? A : B), Rest ...>::value
             >
         {};
     }
@@ -51,8 +51,8 @@ namespace cpe
         );
     };
 
-    template<typename ... Ts>
-    using MaxSize = detail::AccumulateMaxSize<sizeof(Ts) ...>;
+    template<typename T, T ... Ts>
+    using Max = detail::AccumulateMax<T, Ts ...>;
 
     template<typename ...>
     struct IndexOf;

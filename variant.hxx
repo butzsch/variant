@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cstdlib>
+#include <cstddef>
 #include <type_traits>
 #include <utility>
 
@@ -59,7 +59,7 @@ namespace cpe
 		}
 
 		template<typename Visitor>
-		void visit(Visitor && visitor)
+		void visit(Visitor && visitor))
 		{
 			visit_impl<Visitor, Ts ...>(std::forward<Visitor>(visitor));
 		}
@@ -71,7 +71,8 @@ namespace cpe
 		}
 
 	private:
-		static constexpr std::size_t SIZE = MaxSize<Ts ...>::value;
+		static std::size_t constexpr SIZE = Max<std::size_t, sizeof(Ts) ...>::value;
+		static std::size_t constexpr ALIGNMENT = Max<std::size_t, alignof(Ts) ...>::value;
 
 		template<typename T>
 		bool has_value() const
@@ -199,7 +200,7 @@ namespace cpe
 			}
 		}
 
-		char data[SIZE];
+		alignas(ALIGNMENT) char data[SIZE];
 		std::size_t index;
 	};
 }
