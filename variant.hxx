@@ -59,7 +59,7 @@ namespace cpe
 		}
 
 		template<typename Visitor>
-		void visit(Visitor && visitor))
+		void visit(Visitor && visitor)
 		{
 			visit_impl<Visitor, Ts ...>(std::forward<Visitor>(visitor));
 		}
